@@ -3,6 +3,7 @@
     "pages/index/index"
   ],
   "window":{
+    "enablePullDownRefresh": true,
     "backgroundTextStyle":"dark",
     "navigationBarBackgroundColor": "#3ba1df",
     "navigationBarTitleText": "新闻",

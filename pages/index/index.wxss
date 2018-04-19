@@ -86,10 +86,12 @@
 
 .one-pic-news content{
   flex-grow: 1;
+  min-width: 450rpx;
 }
 
 .one-pic-news image{
   width: 190rpx;
+  max-width: 190rpx;
   height: 130rpx;
 
 }

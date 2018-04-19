@@ -1,6 +1,6 @@
 <view class="nav-bar">
-  <view class="option" wx:for="{{options}}"> 
-    <block wx:if="{{item == '国内'}}">
+  <view class="option" wx:for="{{categories}}" bindtap='onCategoryTap' data-category="{{item}}"> 
+    <block wx:if="{{item == currentCategory}}">
       <view class="highlighted"> {{item}} </view>
       <view class="under-bar"> _____ </view>
     </block>
@@ -19,27 +19,27 @@
 <!--index.wxml-->
 <view class="headline">
   <view class="content">
-    <view class="title"> Headline News: 在提交之前，根据项目评审标准检查你的项目。</view>
+    <view class="title"> {{firstNews.title}} </view>
     <view class="info">
-      <view class="source"> 上游新闻 </view>
-      <view class="time"> 10:22 </view>
+      <view class="source"> {{firstNews.source}} </view>
+      <view class="time"> {{firstNews.time}} </view>
     </view>
   </view>
   <view class="image"> 
-    <image src="/images/placeholder_cat_large.jpg"> </image>
+    <image src="{{firstNews.image}}"> </image>
   </view>
 </view>
 
-<view class="one-pic-news" wx:for="{{[1,2,3,4,5]}}">
+<view class="one-pic-news" wx:for="{{otherNews}}">
   <view class="content">
-    <view class="title"> 在提交之前，根据项目评审标准检查你的项目。</view>
+    <view class="title"> {{item.title}} </view>
     <view class="info">
-      <view class="source"> 上游新闻 </view>
-      <view class="time"> 10:22 </view>
+      <view class="source"> {{item.source}} </view>
+      <view class="time"> {{item.time}} </view>
     </view>
   </view>
   <view class="image"> 
-    <image src="/images/placeholder_cat_small.jpeg"> </image>
+    <image src="{{item.image}}"> </image>
   </view>
 
 </view>
