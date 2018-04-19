@@ -1,0 +1,45 @@
+<view class="nav-bar">
+  <view class="option" wx:for="{{options}}"> 
+    <block wx:if="{{item == '国内'}}">
+      <view class="highlighted"> {{item}} </view>
+      <view class="under-bar"> _____ </view>
+    </block>
+
+    <block wx:else>
+      <view class="standard"> {{item}} </view>
+      <view class="under-bar">  </view>
+    </block>
+  </view>
+  
+</view>
+
+<!-- 占位符，将页面整体下移60rpx -->
+<text style='font-size: 60rpx;'>qdoqwdoqwodjqowjdoqwjdoqwj</text>
+
+<!--index.wxml-->
+<view class="headline">
+  <view class="content">
+    <view class="title"> Headline News: 在提交之前，根据项目评审标准检查你的项目。</view>
+    <view class="info">
+      <view class="source"> 上游新闻 </view>
+      <view class="time"> 10:22 </view>
+    </view>
+  </view>
+  <view class="image"> 
+    <image src="/images/placeholder_cat_large.jpg"> </image>
+  </view>
+</view>
+
+<view class="one-pic-news" wx:for="{{[1,2,3,4,5]}}">
+  <view class="content">
+    <view class="title"> 在提交之前，根据项目评审标准检查你的项目。</view>
+    <view class="info">
+      <view class="source"> 上游新闻 </view>
+      <view class="time"> 10:22 </view>
+    </view>
+  </view>
+  <view class="image"> 
+    <image src="/images/placeholder_cat_small.jpeg"> </image>
+  </view>
+
+</view>
