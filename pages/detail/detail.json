@@ -1,0 +1,9 @@
+{
+  "window": {
+    "enablePullDownRefresh": false,
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "新闻",
+    "navigationBarTextStyle": "black"
+  }
+}
