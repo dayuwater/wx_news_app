@@ -24,6 +24,10 @@ Page({
   },
 
   // 按钮事件函数
+
+  /* 当用户点击新闻类别时
+   * 该函数触发
+   */
   onCategoryTap(event){
     // 获取当前新闻类别
     const category = event.currentTarget.dataset.category
@@ -34,6 +38,22 @@ Page({
         currentCategory: category
       })
     })
+  },
+
+  /* 当用户点击某条新闻时
+   * 该函数触发，跳转至详情页面
+   */
+  onNewsTap(event){
+    // 获取新闻ID
+    const id = event.currentTarget.dataset.newsid
+
+    // 跳转到详细页面
+    wx.navigateTo({
+      url: `../../pages/detail/detail?id=${id}`,
+      
+    })
+
+
   },
 
   // 生命周期
@@ -50,7 +70,7 @@ Page({
 
   // API
 
-  // 获取新闻 （category 为中文）
+  // 获取某类型的新闻列表 （category 为中文）
   fetchNews(category, callback){
     wx.request({
       url: 'https://test-miniprogram.com/api/news/list',
@@ -69,6 +89,7 @@ Page({
 
             // 转化为需要显示的结果
             const parsed = results.map((result, idx) => ({
+              id: result.id,
               title: idx == 0 ? result.title : U.padText(result.title),
               source: result.source,
               time: U.formatTime(new Date(result.date)),
@@ -82,16 +103,9 @@ Page({
               otherNews: parsed.slice(1)
             })
 
-            // 后续处理函数
-            callback && callback()
-
           }
 
           // 如果没有新闻,返回没有新闻的界面
-
-
-
-
 
         }
         // 一般情况下，如果返回代码在400以上，基本上是错误请求
@@ -105,8 +119,16 @@ Page({
         wx.showToast({
           title: R.networkErrorText,
         })
+      },
+      complete: () => {
+        // 后续处理函数
+        callback && callback()
       }
+
     })
   }
+
+  
+  
 
 })

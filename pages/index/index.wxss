@@ -104,3 +104,8 @@
   padding-right:30rpx;
 }
 
+.placeholder{
+  font-size: 60rpx;
+  color: white;
+}
+

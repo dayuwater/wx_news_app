@@ -1,5 +1,5 @@
 <view class="nav-bar">
-  <view class="option" wx:for="{{categories}}" bindtap='onCategoryTap' data-category="{{item}}"> 
+  <view class="option" wx:for="{{categories}}" bindtap='onCategoryTap' data-category="{{item}}" wx:key="{{item}}"> 
     <block wx:if="{{item == currentCategory}}">
       <view class="highlighted"> {{item}} </view>
       <view class="under-bar"> _____ </view>
@@ -14,10 +14,10 @@
 </view>
 
 <!-- 占位符，将页面整体下移60rpx -->
-<text style='font-size: 60rpx;'>qdoqwdoqwodjqowjdoqwjdoqwj</text>
+<text class="placeholder">qdoqwdoqwodjqowjdoqwjdoqwj</text>
 
 <!--index.wxml-->
-<view class="headline">
+<view class="headline" bindtap='onNewsTap' data-newsid="{{firstNews.id}}">
   <view class="content">
     <view class="title"> {{firstNews.title}} </view>
     <view class="info">
@@ -30,7 +30,8 @@
   </view>
 </view>
 
-<view class="one-pic-news" wx:for="{{otherNews}}">
+<view class="one-pic-news" wx:for="{{otherNews}}" wx:key="{{item.id}}"
+ bindtap='onNewsTap' data-newsid="{{item.id}}">
   <view class="content">
     <view class="title"> {{item.title}} </view>
     <view class="info">
