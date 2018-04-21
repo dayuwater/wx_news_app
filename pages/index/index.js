@@ -20,7 +20,8 @@ Page({
   // 数据绑定
   data:{
     categories: Object.keys(categories),
-    currentCategory: "国内"
+    currentCategory: "国内",
+    status: R.PAGE_INIT
   },
 
   // 按钮事件函数
@@ -31,6 +32,9 @@ Page({
   onCategoryTap(event){
     // 获取当前新闻类别
     const category = event.currentTarget.dataset.category
+    this.setData({
+      status: R.PAGE_INIT
+    })
 
     // 获取新闻， 刷新页面， 重设当前类别
     this.fetchNews(category, () => {
@@ -100,12 +104,19 @@ Page({
 
             this.setData({
               firstNews: parsed[0],
-              otherNews: parsed.slice(1)
+              otherNews: parsed.slice(1),
+              status: R.PAGE_SUCCESS
+
             })
 
           }
 
-          // 如果没有新闻,返回没有新闻的界面
+          // 如果没有新闻,返回没新闻的界面
+          else{
+            this.setData({
+              status: R.PAGE_NO_NEWS
+            })
+          }
 
         }
         // 一般情况下，如果返回代码在400以上，基本上是错误请求
@@ -113,11 +124,17 @@ Page({
           wx.showToast({
             title: R.networkErrorText,
           })
+          this.setData({
+            status: R.PAGE_NETWORK_ERROR
+          })
         }
       },
       fail: () => {
         wx.showToast({
           title: R.networkErrorText,
+        })
+        this.setData({
+          status: R.PAGE_NETWORK_ERROR
         })
       },
       complete: () => {

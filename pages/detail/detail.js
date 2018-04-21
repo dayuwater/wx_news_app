@@ -15,7 +15,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    status: R.PAGE_INIT
   },
 
   /**
@@ -113,7 +113,8 @@ Page({
             readCount: readCount,
             source: source,
             title: title,
-            content: processedContent
+            content: processedContent,
+            status: R.PAGE_SUCCESS
 
           })
 
@@ -126,12 +127,18 @@ Page({
           wx.showToast({
             title: R.networkErrorText,
           })
+          this.setData({
+            status: R.PAGE_NETWORK_ERROR
+          })
         }
 
       },
       fail: () => {
         wx.showToast({
           title: R.networkErrorText,
+        })
+        this.setData({
+          status: R.PAGE_NETWORK_ERROR
         })
       }
 

@@ -1,5 +1,27 @@
 <!--pages/detail/detail.wxml-->
 <view class="page">
+
+  <!-- 有网显示新闻 (2)，无网显示错误页面 (0)， 无新闻显示无新闻页面 (1), 初始化（-1） -->
+  <view wx:if="{{status == -1}}" class="error-text">
+    <view>
+      页面加载中，请稍等
+    </view>
+  </view>
+  <view wx:elif="{{status == 0}}" class="error-text">
+    <view>
+      网络不给力，请在网络环境畅通的地方使用该程序
+    </view>
+  </view>
+  <view wx:elif="{{status == 1}}" class="error-text">
+    <view>
+      该类别没有新闻
+    </view>
+  </view>
+
+
+  <view wx:elif="{{status == 2}}">
+
+
   <view class="title-container">
     <view class="title"> {{title}} </view>
 
@@ -37,5 +59,7 @@
       {{item.text}}
     </view>
   </view>
+
+</view>
 
 </view>
