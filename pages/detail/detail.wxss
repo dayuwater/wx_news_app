@@ -55,3 +55,29 @@ image{
   font-size: 50rpx;
   line-height: 70rpx;
 }
+
+/* 其他服务器端段落类型，如果出现背景会变红，以便以后更新代码 */
+.exception{
+  background-color: red;
+}
+
+.info-box{
+  margin: 130rpx;
+  background-color: rgba(255,0,0,0.1);
+  box-shadow: 10rpx 10rpx 5rpx #888888;
+  border-radius: 40rpx;
+  padding-bottom: 100rpx;
+
+}
+
+.info-box .icon{
+  width: 100%;
+  max-height: 200rpx;
+  margin-bottom: 100rpx;
+  margin-top: 100rpx;
+
+}
+
+.info-box .description{
+  margin: 30rpx;
+}

@@ -1,3 +1,6 @@
+<!--index.wxml-->
+
+<!-- 导航栏 -->
 <view class="nav-bar">
   <view class="option" wx:for="{{categories}}" bindtap='onCategoryTap' data-category="{{item}}" wx:key="{{item}}"> 
     <block wx:if="{{item == currentCategory}}">
@@ -17,26 +20,19 @@
 <text class="placeholder">qdoqwdoqwodjqowjdoqwjdoqwj</text>
 
 <!-- 有网显示新闻 (2)，无网显示错误页面 (0)， 无新闻显示无新闻页面 (1), 初始化（-1） -->
-<view wx:if="{{status == -1}}" class="error-text">
+
+<view wx:if="{{status < 2}}" class="info-box" style="background-color:{{errorPage[status].color}}">
   <view>
-    页面加载中，请稍等
+    <image class="icon" src="{{errorPage[status].icon}}">  </image>
   </view>
-</view>
-<view wx:elif="{{status == 0}}" class="error-text">
-  <view>
-    网络不给力，请在网络环境畅通的地方使用该程序
-  </view>
-</view>
-<view wx:elif="{{status == 1}}" class="error-text">
-  <view>
-    该类别没有新闻
+  <view class="description">
+    {{errorPage[status].message}}
   </view>
 </view>
 
+<view wx:else>
 
-<view wx:elif="{{status == 2}}">
-
-<!--index.wxml-->
+<!-- 热门新闻 -->
 <view class="headline" bindtap='onNewsTap' data-newsid="{{firstNews.id}}">
   <view class="content">
     <view class="title"> {{firstNews.title}} </view>
@@ -45,11 +41,17 @@
       <view class="time"> {{firstNews.time}} </view>
     </view>
   </view>
+
   <view class="image"> 
     <image src="{{firstNews.image}}"> </image>
   </view>
+
+  <view class="popular">
+    <view class="text"> 热门 </view>
+  </view>
 </view>
 
+<!-- 普通新闻 -->
 <view class="one-pic-news" wx:for="{{otherNews}}" wx:key="{{item.id}}"
  bindtap='onNewsTap' data-newsid="{{item.id}}">
   <view class="content">

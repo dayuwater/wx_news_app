@@ -1,3 +1,5 @@
+"use strict"
+
 // 常数 (向安卓致敬)
 import * as R from '../../utils/constants.js'
 import * as U from '../../utils/util.js'
@@ -15,7 +17,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    status: R.PAGE_INIT
+    status: R.PAGE_INIT,
+    errorPage: R.pageStatus
   },
 
   /**
@@ -95,9 +98,7 @@ Page({
           const {content,date,readCount,source,title} = result
 
           // 这个content最好还是交给WXML用条件渲染来处理
-          // 但是，所有在image后面出现的p都是那个图片的描述
-          // 必须特殊处理， 以便显示在图片下方
-
+          
           // 挑出所有image的id
           const imageIds = content.filter(c => c.type === "image").map(c => c.id)
           
@@ -124,9 +125,7 @@ Page({
         }
         // 一般情况下，如果返回代码在400以上，基本上是错误请求
         else{
-          wx.showToast({
-            title: R.networkErrorText,
-          })
+          
           this.setData({
             status: R.PAGE_NETWORK_ERROR
           })
@@ -134,13 +133,15 @@ Page({
 
       },
       fail: () => {
-        wx.showToast({
-          title: R.networkErrorText,
-        })
+        
         this.setData({
           status: R.PAGE_NETWORK_ERROR
         })
+      },
+      complete: () =>{
+        
       }
+    
 
     })
   }

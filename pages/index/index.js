@@ -1,3 +1,5 @@
+"use strict"
+
 // 常数 (向安卓致敬)
 import * as R from '../../utils/constants.js'
 import * as U from '../../utils/util.js'
@@ -21,7 +23,9 @@ Page({
   data:{
     categories: Object.keys(categories),
     currentCategory: "国内",
-    status: R.PAGE_INIT
+    status: R.PAGE_INIT,
+    // 使用status作为映射，这个“变量”本身是不变的，无论页面状态如何
+    errorPage: R.pageStatus 
   },
 
   // 按钮事件函数
@@ -86,25 +90,25 @@ Page({
         if(res.data.code < 400){
           // 抽出API返回结果
           const results = res.data.result
-          console.log(results)
-
+        
           // 如果有新闻
           if(results.length > 0){
 
             // 转化为需要显示的结果
-            const parsed = results.map((result, idx) => ({
+            // 因为第一条新闻需要放大显示， 需要大号默认图片
+            // 其他新闻的图片如果用大号图片会浪费网络资源，需要小号默认图片
+            // 这时需要将默认图片参数科里化
+            const parsed = results.map((result, idx) => defaultImgUrl => ({
               id: result.id,
-              title: idx == 0 ? result.title : U.padText(result.title),
+              title: result.title,
               source: result.source,
               time: U.formatTime(new Date(result.date)),
-              image: result.firstImage
+              image: result.firstImage || defaultImgUrl
             }))
 
-            console.log(parsed)
-
             this.setData({
-              firstNews: parsed[0],
-              otherNews: parsed.slice(1),
+              firstNews: parsed[0](R.largeImgUrl),
+              otherNews: parsed.slice(1).map(f => f(R.smallImgUrl)),
               status: R.PAGE_SUCCESS
 
             })
@@ -121,18 +125,14 @@ Page({
         }
         // 一般情况下，如果返回代码在400以上，基本上是错误请求
         else{
-          wx.showToast({
-            title: R.networkErrorText,
-          })
+          
           this.setData({
             status: R.PAGE_NETWORK_ERROR
           })
         }
       },
       fail: () => {
-        wx.showToast({
-          title: R.networkErrorText,
-        })
+        
         this.setData({
           status: R.PAGE_NETWORK_ERROR
         })
