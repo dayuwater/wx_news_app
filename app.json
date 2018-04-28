@@ -8,7 +8,8 @@
     "backgroundTextStyle":"dark",
     "navigationBarBackgroundColor": "#3ba1df",
     "navigationBarTitleText": "新闻",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "iconPath":"/icons/error.svg"
 
   }
 

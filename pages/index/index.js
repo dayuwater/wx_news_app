@@ -36,6 +36,8 @@ Page({
   onCategoryTap(event){
     // 获取当前新闻类别
     const category = event.currentTarget.dataset.category
+
+    // 将页面状态切回初始化
     this.setData({
       status: R.PAGE_INIT
     })
@@ -66,6 +68,9 @@ Page({
 
   // 生命周期
   onLoad(){
+    this.setData({
+      status: R.PAGE_INIT
+    })
     this.fetchNews(this.data.currentCategory)
   },
 
@@ -106,12 +111,22 @@ Page({
               image: result.firstImage || defaultImgUrl
             }))
 
+            // 如果页面状态不是初始化，显示成功信息
+            if (this.data.status !== R.PAGE_INIT) {
+              wx.showToast({
+                title: R.successToastMsg,
+              })
+            }
+
+            // 设置页面数据，将页面状态切为成功
             this.setData({
               firstNews: parsed[0](R.largeImgUrl),
               otherNews: parsed.slice(1).map(f => f(R.smallImgUrl)),
               status: R.PAGE_SUCCESS
 
             })
+
+            
 
           }
 
@@ -124,18 +139,15 @@ Page({
 
         }
         // 一般情况下，如果返回代码在400以上，基本上是错误请求
+
+        // 如果之前页面是正常的，这时不应显示错误页面，但需要给用户一个Toast
+        // 如果之前页面是不正常的（包括初始化），显示错误页面
         else{
-          
-          this.setData({
-            status: R.PAGE_NETWORK_ERROR
-          })
+          this.onApiFailure()
         }
       },
       fail: () => {
-        
-        this.setData({
-          status: R.PAGE_NETWORK_ERROR
-        })
+        this.onApiFailure()
       },
       complete: () => {
         // 后续处理函数
@@ -143,6 +155,21 @@ Page({
       }
 
     })
+  },
+
+  // 当API请求失败时
+  onApiFailure(){
+    if (this.data.status === R.PAGE_SUCCESS) {
+      wx.showToast({
+        icon: "none",
+        title: R.errorToastMsg,
+      })
+    }
+    else {
+      this.setData({
+        status: R.PAGE_NETWORK_ERROR
+      })
+    }
   }
 
   

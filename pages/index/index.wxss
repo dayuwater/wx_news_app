@@ -1,19 +1,15 @@
 .nav-bar{
-  /* background: linear-gradient(6.08deg, rgb(53, 143, 207), rgb(59, 161, 223)) */
   background-color: #3ba1df;
   display: flex;
   align-items: center;
   height: 90rpx;
   width: 100%;
   position: fixed;
+  /* 这样可以挡住那段用于调整页面位置的占位text */
   z-index: 2;
-  
-  
-  
 }
 
 .nav-bar .option{
-  /* padding: 15rpx; */
   font-size: 30rpx;
   width: 14.28%;
   color: white;
@@ -138,6 +134,7 @@
 
 .info-box .description{
   margin: 30rpx;
+  text-align: center;
 }
 
 .popular{

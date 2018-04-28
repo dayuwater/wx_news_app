@@ -9,7 +9,6 @@ Page({
   // 目录（使用 Ctrl + F 以快速定位)：
   // 数据绑定
   // 生命周期
-  // 按钮事件函数
   // API
 
   /**
@@ -27,65 +26,27 @@ Page({
   onLoad: function (options) {
     const id = options.id
     this.setData({
+      status: R.PAGE_INIT,
       newsId: id
     })
 
-    this.getDetail(id)
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
+    this.getNews(id)
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
+    const id = this.data.newsId
+    this.getNews(id, () => {
+      wx.stopPullDownRefresh()
+    })
   },
 
   // API
   // 获取某个具体新闻的详细内容
   // 并把结果存入data
-  getDetail(id) {
+  getNews(id, callback) {
     wx.request({
       url: 'https://test-miniprogram.com/api/news/detail',
       data: {
@@ -107,8 +68,15 @@ Page({
             ...c,
             afterImg: imageIds.includes(idx)
           }))
-          
-          // 设置标题
+
+          // 如果页面状态不是初始化，显示成功信息
+          if (this.data.status !== R.PAGE_INIT) {
+            wx.showToast({
+              title: R.successToastMsg,
+            })
+          }
+
+          // 设置内容
           this.setData({
             time: U.formatTime(new Date(date)),
             readCount: readCount,
@@ -119,31 +87,37 @@ Page({
 
           })
 
-          
-
-
         }
         // 一般情况下，如果返回代码在400以上，基本上是错误请求
         else{
-          
-          this.setData({
-            status: R.PAGE_NETWORK_ERROR
-          })
+          this.onApiFailure()
         }
 
       },
       fail: () => {
-        
-        this.setData({
-          status: R.PAGE_NETWORK_ERROR
-        })
+        this.onApiFailure()
       },
-      complete: () =>{
-        
+      complete: () => {
+        callback && callback()
       }
     
 
     })
+  },
+
+  // 当API请求失败时
+  onApiFailure() {
+    if (this.data.status === R.PAGE_SUCCESS) {
+      wx.showToast({
+        icon: "none",
+        title: R.errorToastMsg,
+      })
+    }
+    else {
+      this.setData({
+        status: R.PAGE_NETWORK_ERROR
+      })
+    }
   }
 
 

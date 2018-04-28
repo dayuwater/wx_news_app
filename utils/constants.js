@@ -39,3 +39,9 @@ export const pageStatus = {
 
 
 }
+
+// 报错用的Toast
+export const errorToastMsg = "网络异常, 刷新失败"
+
+// 成功Toast
+export const successToastMsg = "刷新成功"

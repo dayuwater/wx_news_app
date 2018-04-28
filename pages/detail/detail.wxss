@@ -80,4 +80,5 @@ image{
 
 .info-box .description{
   margin: 30rpx;
+  text-align: center;
 }
